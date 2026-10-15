@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart | Foodie</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+
+<header class="navbar">
+    <a class="logo" href="/">🍔 Foodie</a>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/menu">Menu</a>
+        <a href="/cart">Cart ({{ cart_count }})</a>
+        <a href="/orders">Orders</a>
+    </nav>
+</header>
+
+<main class="container">
+    <h1>Your Shopping Cart 🛒</h1>
+
+    {% if items %}
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Food</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.emoji }} {{ item.name }}</td>
+                    <td>₹{{ item.price }}</td>
+                    <td>
+                        <form class="inline-form"
+                              action="{{ url_for('update_cart', food_id=item.id) }}"
+                              method="POST">
+                            <input type="number" name="quantity"
+                                   value="{{ item.quantity }}"
+                                   min="0" max="20" required>
+                            <button class="btn small-btn" type="submit">
+                                Update
+                            </button>
+                        </form>
+                    </td>
+                    <td>₹{{ item.subtotal }}</td>
+                    <td>
+                        <form action="{{ url_for('remove_from_cart', food_id=item.id) }}"
+                              method="POST">
+                            <button type="submit" class="btn danger-btn"
+                                    data-confirm="Remove this item from your cart?">
+                                Remove
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="total-box">
+        <h2>Total: ₹{{ total }}</h2>
+    </div>
+
+    <section class="checkout-box">
+        <h2>Delivery Details</h2>
+
+        <form action="{{ url_for('checkout') }}" method="POST"
+              class="checkout-form" data-confirm="Place this order?">
+
+            <label for="customer_name">Full Name</label>
+            <input id="customer_name" type="text" name="customer_name"
+                   maxlength="100" required placeholder="Enter your name">
+
+            <label for="phone">Phone Number</label>
+            <input id="phone" type="tel" name="phone"
+                   inputmode="numeric" pattern="[0-9]{7,15}"
+                   maxlength="15" required placeholder="Digits only">
+
+            <label for="address">Delivery Address</label>
+            <textarea id="address" name="address" maxlength="500"
+                      required placeholder="Enter your full delivery address"></textarea>
+
+            <button class="btn full-btn" type="submit">
+                Confirm Order — ₹{{ total }}
+            </button>
+        </form>
+    </section>
+
+    {% else %}
+    <section class="empty-state">
+        <div class="food-emoji">🛒</div>
+        <h2>Your cart is empty</h2>
+        <p class="muted">Add something delicious from our menu.</p>
+        <a href="/menu" class="btn">Browse Food Menu</a>
+    </section>
+    {% endif %}
+</main>
+
+<footer>
+    <p>© 2026 Foodie | Online Food Ordering System</p>
+</footer>
+
+</body>
+</html>

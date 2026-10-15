@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders | Foodie</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+
+<header class="navbar">
+    <a class="logo" href="/">🍔 Foodie</a>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/menu">Menu</a>
+        <a href="/cart">Cart ({{ cart_count }})</a>
+        <a href="/orders">Orders</a>
+    </nav>
+</header>
+
+<main class="container">
+    <h1>Your Orders 📦</h1>
+
+    {% if orders %}
+        {% for order in orders|reverse %}
+        <article class="order-card">
+            <div class="order-heading">
+                <div>
+                    <h2>Order #{{ order.id }}</h2>
+                    <p class="muted">{{ order.date }}</p>
+                </div>
+                <span class="status">{{ order.status }}</span>
+            </div>
+
+            <p><strong>Customer:</strong> {{ order.customer_name }}</p>
+            <p><strong>Phone:</strong> {{ order.phone }}</p>
+            <p><strong>Address:</strong> {{ order.address }}</p>
+
+            <h3>Items</h3>
+            <ul class="order-items">
+                {% for item in order.items %}
+                <li>
+                    {{ item.emoji }} {{ item.name }}
+                    × {{ item.quantity }}
+                    — ₹{{ item.subtotal }}
+                </li>
+                {% endfor %}
+            </ul>
+
+            <h3 class="order-total">Total: ₹{{ order.total }}</h3>
+        </article>
+        {% endfor %}
+    {% else %}
+        <section class="empty-state">
+            <div class="food-emoji">📦</div>
+            <h2>No orders yet</h2>
+            <p class="muted">Your placed orders will appear here.</p>
+            <a href="/menu" class="btn">Order Food</a>
+        </section>
+    {% endif %}
+</main>
+
+<footer>
+    <p>© 2026 Foodie | Online Food Ordering System</p>
+</footer>
+
+</body>
+</html>

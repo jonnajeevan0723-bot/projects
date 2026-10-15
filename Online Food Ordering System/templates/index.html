@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodie | Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+
+<header class="navbar">
+    <a class="logo" href="/">🍔 Foodie</a>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/menu">Menu</a>
+        <a href="/cart">Cart ({{ cart_count }})</a>
+        <a href="/orders">Orders</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div>
+        <p class="eyebrow">FRESH • TASTY • DELIVERED</p>
+        <h1>Your favourite food,<br>just a click away!</h1>
+        <p>Discover delicious meals made for you.</p>
+        <a href="/menu" class="btn">Explore Menu →</a>
+    </div>
+    <div class="hero-emoji">🍕</div>
+</section>
+
+<main class="container">
+    <h2>Popular Food Items</h2>
+    <p class="muted">Choose your favourite and order today.</p>
+
+    <div class="food-grid">
+        {% for food in foods[:4] %}
+        <article class="food-card">
+            <div class="food-emoji">{{ food.emoji }}</div>
+            <h3>{{ food.name }}</h3>
+            <p>{{ food.description }}</p>
+            <div class="card-bottom">
+                <strong>₹{{ food.price }}</strong>
+                <a class="btn small-btn" href="/menu">Order</a>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+
+    <div class="center">
+        <a href="/menu" class="btn">View Full Menu</a>
+    </div>
+</main>
+
+<footer>
+    <p>© 2026 Foodie | Online Food Ordering System</p>
+</footer>
+
+</body>
+</html>
