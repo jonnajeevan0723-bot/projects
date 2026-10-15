@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Spam Detector</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>📧 Email Spam Detector</h1>
+        <p>Check whether a message is spam using Machine Learning</p>
+    </header>
+
+    <main class="container">
+        <h2>Analyze Your Email</h2>
+        <p>Paste your email message below.</p>
+
+        <textarea id="emailText"
+            placeholder="Enter your email message here..."
+            rows="8"></textarea>
+
+        <button id="checkButton" onclick="checkSpam()">
+            Check Email
+        </button>
+
+        <div id="result" role="status" aria-live="polite"></div>
+
+        <div class="examples">
+            <h3>Try an example</h3>
+            <button class="example"
+                onclick="setExample('Congratulations! You won a free cash prize. Click here now!')">
+                Spam Example
+            </button>
+            <button class="example"
+                onclick="setExample('Hello, please send me the class notes for tomorrow.')">
+                Normal Example
+            </button>
+        </div>
+    </main>
+
+    <footer>
+        <p>Python • Flask • Machine Learning</p>
+        <p>Educational project — results may be incorrect.</p>
+    </footer>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
